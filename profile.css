@@ -1,0 +1,89 @@
+.pf-card {
+  padding: 10px;
+  border-radius: var(--r);
+  background: var(--panel);
+  border: 1px solid var(--line);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+
+.pf-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.pf-id { display: flex; flex-direction: column; line-height: 1.25; min-width: 0; }
+.pf-id b { font-size: 12.5px; font-weight: 600; }
+.pf-id span { font-size: 10.5px; color: var(--text-3); font-variant-numeric: tabular-nums; }
+
+.pf-figure {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.pf-now {
+  font-size: 26px;
+  font-weight: 600;
+  letter-spacing: -0.035em;
+  line-height: 1.1;
+}
+
+.pf-delta { font-size: 11.5px; font-weight: 600; font-variant-numeric: tabular-nums; }
+
+.pf-chart {
+  width: 100%;
+  height: 84px;
+  display: block;
+}
+
+.lines {
+  border-radius: var(--r);
+  background: var(--panel);
+  border: 1px solid var(--line);
+  overflow: hidden;
+}
+
+.line {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 5px 9px;
+  border-top: 1px solid var(--line-2);
+  font-size: 11.5px;
+}
+
+.line:first-child { border-top: 0; }
+.line span { color: var(--text-2); }
+.line b { font-weight: 600; white-space: nowrap; }
+
+.prestige {
+  padding: 9px 10px;
+  border-radius: var(--r);
+  background: var(--panel);
+  border: 1px solid var(--line);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.pg-text { font-size: 11px; color: var(--text-2); line-height: 1.4; }
+
+.pg-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.pg-prog { font-size: 10.5px; color: var(--text-3); white-space: nowrap; }
+
+@media (max-width: 340px) {
+  .pf-now { font-size: 22px; }
+}

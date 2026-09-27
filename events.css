@@ -1,0 +1,107 @@
+.eventbar {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: baseline;
+  gap: 2px 6px;
+  padding: 5px 8px;
+  margin-bottom: 6px;
+  border-radius: var(--r-s);
+  background: var(--panel);
+  border: 1px solid var(--line);
+  font-size: 11px;
+}
+
+.eventbar[hidden] { display: none; }
+
+.eventbar .ev-name {
+  font-weight: 600;
+  color: var(--accent);
+  white-space: nowrap;
+}
+
+.eventbar .ev-desc {
+  color: var(--text-2);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.eventbar[data-kind="crash"] .ev-name,
+.eventbar[data-kind="rug"] .ev-name { color: var(--down); }
+
+.eventbar[data-kind="jackpot"] .ev-name,
+.eventbar[data-kind="bull"] .ev-name { color: var(--up); }
+
+.ev-bar {
+  grid-column: 1 / -1;
+  display: block;
+  height: 2px;
+  border-radius: 99px;
+  background: var(--panel-2);
+  overflow: hidden;
+}
+
+.ev-bar i {
+  display: block;
+  height: 100%;
+  background: var(--text-3);
+  transform-origin: left;
+}
+
+.choice {
+  padding: 8px 10px;
+  margin-bottom: 6px;
+  border-radius: var(--r);
+  background: color-mix(in srgb, var(--warn) 9%, var(--panel));
+  border: 1px solid color-mix(in srgb, var(--warn) 30%, transparent);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  animation: fade 180ms ease-out;
+}
+
+.choice[hidden] { display: none; }
+
+.ch-head {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--warn);
+}
+
+.ch-text { font-size: 11px; color: var(--text-2); font-variant-numeric: tabular-nums; }
+
+.ch-acts {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 5px;
+}
+
+.ch-acts .btn { font-size: 11px; padding: 5px 4px; min-height: 28px; }
+.ch-acts .btn[data-act="sell"] { color: var(--up); }
+.ch-acts .btn[data-act="hold"] { color: var(--accent); }
+.ch-acts .btn[data-act="double"] { color: var(--warn); }
+
+.ch-bar {
+  display: block;
+  height: 2px;
+  border-radius: 99px;
+  background: var(--panel-2);
+  overflow: hidden;
+}
+
+.ch-bar i {
+  display: block;
+  height: 100%;
+  background: var(--warn);
+  transform-origin: left;
+}
+
+@media (max-width: 360px) {
+  .ch-acts { grid-template-columns: 1fr; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .choice { animation: none; }
+}

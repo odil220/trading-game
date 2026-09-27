@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<title>Ledger</title>
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/chrome.css">
+<link rel="stylesheet" href="css/views.css">
+<link rel="stylesheet" href="css/magazine.css">
+<link rel="stylesheet" href="css/events.css">
+<link rel="stylesheet" href="css/own.css">
+<link rel="stylesheet" href="css/profile.css">
+<link rel="stylesheet" href="css/sheet.css">
+</head>
+<body>
+
+<header class="toolbar">
+  <div class="pills">
+    <div class="pill"><span>Money</span><b class="tabular" id="statCash">$0</b></div>
+    <div class="pill"><span>Per sec</span><b class="tabular" id="statRate">$0/s</b></div>
+    <div class="pill"><span>Total</span><b class="tabular" id="statWorth">$0</b></div>
+    <div class="pill combo" id="comboPill" hidden><b id="comboVal">+1x</b></div>
+  </div>
+
+  <div class="tools">
+    <button class="icon" id="themeBtn" aria-label="Light or dark">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a9 9 0 1 0 9 9 7 7 0 0 1-9-9Z"/></svg>
+    </button>
+    <button class="icon wide" id="resetBtn">Reset</button>
+  </div>
+</header>
+
+<nav class="chrome-bar">
+  <div class="seg" role="tablist" aria-label="Sections">
+    <i class="seg-pill" id="segPill" aria-hidden="true"></i>
+    <button class="tab is-active" data-view="market" role="tab" aria-selected="true">Market</button>
+    <button class="tab" data-view="own" role="tab" aria-selected="false">Own</button>
+    <button class="tab" data-view="mines" role="tab" aria-selected="false">Mines</button>
+    <button class="tab" data-view="shop" role="tab" aria-selected="false">Shop</button>
+    <button class="tab" data-view="black" role="tab" aria-selected="false">Black</button>
+    <button class="tab" data-view="profile" role="tab" aria-selected="false">You</button>
+  </div>
+</nav>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<main>
+  <section class="view is-active" id="view-market" role="tabpanel">
+    <div class="eventbar" id="eventBar" data-kind="" hidden>
+      <span class="ev-name"></span>
+      <span class="ev-desc"></span>
+      <span class="ev-bar"><i></i></span>
+    </div>
+
+    <article class="choice" id="moonChoice" hidden>
+      <div class="ch-head"></div>
+      <p class="ch-text"></p>
+      <div class="ch-acts">
+        <button class="btn" data-act="sell"></button>
+        <button class="btn" data-act="hold"></button>
+        <button class="btn" data-act="double"></button>
+      </div>
+      <span class="ch-bar"><i></i></span>
+    </article>
+
+    <ul class="coins" id="coinList"></ul>
+  </section>
+
+  <section class="view" id="view-own" role="tabpanel" hidden>
+    <div class="acts">
+      <button class="btn" id="oneCoinBtn">Everything in one coin</button>
+      <button class="btn danger" id="sellAllBtn">Sell all coins</button>
+    </div>
+
+    <article class="onecoin" id="oneCoin" hidden>
+      <div class="oc-chips" id="oneCoinChips"></div>
+      <div class="oc-figure"><b class="oc-big tabular"></b><span class="oc-sym"></span></div>
+      <p class="oc-sub"></p>
+      <div class="oc-rows"></div>
+      <p class="oc-risk" hidden></p>
+    </article>
+
+    <div class="tiles" id="ownStats"></div>
+
+    <div class="alloc" id="ownAlloc" aria-hidden="true">
+      <i class="seg-coin"></i><i class="seg-machine"></i><i class="seg-cash"></i>
+    </div>
+    <p class="note" id="ownNote"></p>
+    <p class="note next" id="ownBuy"></p>
+
+    <h2 class="sec">Coins</h2>
+    <div class="rows" id="ownCoins"></div>
+
+    <h2 class="sec">Machines</h2>
+    <div class="rows" id="ownMachines"></div>
+  </section>
+
+  <section class="view" id="view-mines" role="tabpanel" hidden>
+    <div class="head"><h1>Your Machines</h1><span class="meta"><b id="fleetRate">$0/s</b> · <b id="fleetCount">0</b></span></div>
+    <div class="grid" id="fleetList"></div>
+    <p class="empty" id="fleetEmpty" hidden>No machines yet. Buy one in the Shop.</p>
+  </section>
+
+  <section class="view" id="view-shop" role="tabpanel" hidden>
+    <div class="head"><h1>Magazine</h1><span class="meta">Machines that print money</span></div>
+    <div class="grid" id="shopList"></div>
+  </section>
+
+  <section class="view" id="view-black" role="tabpanel" hidden>
+    <div class="head"><h1>Black Market</h1><span class="meta">Short boosts, high prices</span></div>
+    <div class="items" id="blackList"></div>
+  </section>
+
+  <section class="view" id="view-profile" role="tabpanel" hidden>
+    <article class="pf-card">
+      <div class="pf-top">
+        <div class="pf-id"><b>Your game</b><span id="pfStart"></span></div>
+        <span class="badge" id="pfDay">Day 1</span>
+      </div>
+      <div class="pf-figure">
+        <span class="pf-now tabular" id="pfNow">$0</span>
+        <span class="pf-delta" id="pfDelta"></span>
+      </div>
+      <canvas class="pf-chart" id="pfChart" aria-label="Your total money over time"></canvas>
+      <p class="note" id="pfHint"></p>
+    </article>
+
+    <div class="lines" id="pfStats"></div>
+
+    <h2 class="sec">Start over</h2>
+    <article class="prestige" id="prestigeBox">
+      <p class="pg-text"></p>
+      <span class="bar"><i></i></span>
+      <div class="pg-foot">
+        <span class="pg-prog tabular"></span>
+        <button class="btn">Locked</button>
+      </div>
+    </article>
+  </section>
+</main>
+
+<div class="scrim" id="scrim"></div>
+
+<section class="sheet" id="sheet" role="dialog" aria-modal="true" aria-labelledby="sheetName" aria-hidden="true">
+  <div class="grab" id="sheetGrab"><i></i></div>
+
+  <div class="sheet-head">
+    <div class="who">
+      <h2 id="sheetName">—</h2>
+      <span class="speed" id="sheetSpeed">Price Speed: —</span>
+    </div>
+    <button class="icon round" id="sheetClose" aria-label="Close">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>
+    </button>
+  </div>
+
+  <div class="quote">
+    <span class="price tabular" id="sheetPrice">$0</span>
+    <span class="chg" id="sheetChg">—</span>
+  </div>
+
+  <canvas class="chart" id="sheetChart" aria-hidden="true"></canvas>
+
+  <div class="qty">
+    <button class="step" data-step="-1" aria-label="Fewer">−</button>
+    <input id="qtyInput" class="tabular" inputmode="numeric" pattern="[0-9]*" value="1" aria-label="How many">
+    <button class="step" data-step="1" aria-label="More">+</button>
+    <button class="half" data-qty="half">1/2</button>
+    <button class="half" data-qty="max">Max</button>
+  </div>
+
+  <div class="kv">
+    <div><span>You have</span><b class="tabular" id="posShares">0</b></div>
+    <div><span>That is worth</span><b class="tabular" id="posValue">$0</b></div>
+    <div><span>This costs</span><b class="tabular" id="orderTotal">$0</b></div>
+  </div>
+
+  <div class="actions">
+    <button class="btn sell" id="sellBtn">Sell</button>
+    <button class="btn buy" id="buyBtn">Buy</button>
+  </div>
+</section>
+
+<script src="js/util.js"></script>
+<script src="js/motion.js"></script>
+<script src="js/data.js"></script>
+<script src="js/state.js"></script>
+<script src="js/market.js"></script>
+<script src="js/mines.js"></script>
+<script src="js/shop.js"></script>
+<script src="js/events.js"></script>
+<script src="js/portfolio.js"></script>
+<script src="js/onecoin.js"></script>
+<script src="js/profile.js"></script>
+<script src="js/prestige.js"></script>
+<script src="js/black.js"></script>
+<script src="js/sheet.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

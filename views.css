@@ -1,0 +1,119 @@
+main {
+  max-width: 560px;
+  margin: 0 auto;
+  padding: 8px max(10px, env(safe-area-inset-left)) 0 max(10px, env(safe-area-inset-right));
+}
+
+.view { animation: fade 180ms ease-out; }
+.view[hidden] { display: none; }
+
+@keyframes fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* ---------- market ---------- */
+
+.coins {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-radius: var(--r);
+  background: var(--panel);
+  border: 1px solid var(--line);
+  overflow: hidden;
+}
+
+.coin {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 62px 78px;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  border-top: 1px solid var(--line-2);
+  transition: background 160ms ease-out, transform 90ms ease-out;
+}
+
+.coin:first-child { border-top: 0; }
+.coin:active { transform: scale(0.995); background: var(--panel-2); }
+
+.coin-id { display: flex; flex-direction: column; min-width: 0; line-height: 1.25; }
+
+.coin-id .sym {
+  font-size: 12.5px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  color: var(--text);
+}
+
+.coin-id .sub {
+  font-size: 10.5px;
+  color: var(--text-3);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.coin-id .sub.hot { color: var(--warn); }
+.coin-id .sub.warn { color: var(--down); }
+
+.coin canvas { width: 62px; height: 22px; display: block; }
+
+.coin-num {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  line-height: 1.25;
+  min-width: 0;
+}
+
+.coin-num .price {
+  font-size: 12.5px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+}
+
+.coin-num .chg {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--text-3);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+
+.coin-num .chg.up { color: var(--up); }
+.coin-num .chg.down { color: var(--down); }
+
+@media (max-width: 340px) {
+  .coin { grid-template-columns: minmax(0, 1fr) 44px 68px; gap: 6px; padding: 6px 8px; }
+  .coin canvas { width: 44px; height: 20px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .view { animation: none; }
+  .coin { transition: background 140ms ease-out; }
+  .coin:active { transform: none; }
+}
+
+@keyframes tickUp {
+  from { background: color-mix(in srgb, var(--up) 16%, transparent); }
+  to { background: transparent; }
+}
+
+@keyframes tickDown {
+  from { background: color-mix(in srgb, var(--down) 16%, transparent); }
+  to { background: transparent; }
+}
+
+.coin.tick-up { animation: tickUp 520ms ease-out; }
+.coin.tick-down { animation: tickDown 520ms ease-out; }
+
+@media (prefers-reduced-motion: reduce) {
+  .coin.tick-up, .coin.tick-down { animation: none; }
+}
